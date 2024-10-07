@@ -15,3 +15,9 @@ input,
 select {
     width: 50%;
 }
+
+#map{
+    width: 600px;
+    height: 600px;
+    border: 1px solid black;
+}
