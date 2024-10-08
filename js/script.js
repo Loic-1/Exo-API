@@ -27,8 +27,10 @@ map.on('drag', function() {
 
 // Ajoute un écouteur d'événement "input" (pendant la saisie) au champ de code postal
 inputCP.addEventListener("input", () => {
+
     // Récupère la valeur entrée dans le champ de code postal
     let value = inputCP.value;
+
     // Vide le contenu actuel de la liste de sélection de ville
     selectVille.innerText = null;
 
@@ -71,7 +73,8 @@ inputCP.addEventListener("input", () => {
 
                 var group = new L.featureGroup(markers);
 
-                map.fitBounds(group.getBounds(), { padding: [20, 20] });
+                // map.fitBounds(group.getBounds(), { padding: [20, 20] });
+                map.flyToBounds(group.getBounds(), { duration: 2 });
             })
 
             console.log(markers);
