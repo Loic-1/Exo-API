@@ -18,16 +18,60 @@
     color: #0A0A0A;
 }
 
-input,
-select {
-    width: 225px;
-    background-color: rgb(232, 240, 254);
-    padding: 3px;
+.top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
 }
 
-#map{
-    width: 80%;
+.input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    width: 90%;
+}
+
+.cp,
+.ville {
+    width: 94%;
+    background-color: rgb(232, 240, 254);
+    padding: 5px;
+
+    border: 1px solid black;
+}
+
+#map {
+    width: 90%;
     max-height: 80vh;
     aspect-ratio: 1/1;
     border: 1px solid black;
 }
+
+@media screen and (min-width: 481px) {
+
+    #map {
+        width: 80%;
+    }
+
+    .cp,
+    .ville {
+        width: 47%;
+    }
+
+    .input {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 769px) {}
+
+@media screen and (min-width: 1280px) {}

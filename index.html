@@ -11,14 +11,19 @@
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="icon" href="https://www.svgrepo.com/show/535327/compass.svg">
     <title>API Geo V2</title>
 </head>
 
 <body>
     <div class="body">
-        <h1>API Geo Adresse</h1>
-        <input type="text" class="cp" name="codepostal" id="codepostal" placeholder="Saisir un code postal ...">
-        <select class="ville" name="ville" id="ville"></select>
+        <div class="top">
+            <h1>API Geo Adresse</h1>
+            <div class="input">
+                <input type="text" class="cp" name="codepostal" id="codepostal" placeholder="Saisir un code postal ...">
+                <select class="ville" name="ville" id="ville"></select>
+            </div>
+        </div>
         <div id="map"></div>
     </div>
     <script src="js/script.js"></script>
