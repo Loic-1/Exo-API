@@ -3,14 +3,29 @@ const inputCP = document.querySelector(".cp");
 // Séléctionne l'élément HTML avec la classe "ville"
 const selectVille = document.querySelector(".ville");
 
+var map = L.map('map', {
+    center: [46.7944125670863, 2.5347100800075673], // lat, lng
+    zoom: 5 // 10 for big cities, 15 for villages
+});
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+L.control.scale().addTo(map);
+
+
 // Ajoute un écouteur d'événement "input" (pendant la saisie) au champ de code postal
 inputCP.addEventListener("input", () => {
     // Récupère la valeur entrée dans le champ de code postal
     let value = inputCP.value;
     // Vide le contenu actuel de la liste de sélection de ville
     selectVille.innerText = null;
+
+
     // Effectue une requête fetch vers l'API de géolocalisation avec le code postal saisi
-    fetch(`https://geo.api.gouv.fr/communes?codePostal=${value}&fields=region,nom,code,codesPostaux,codeRegionéformat=json&geometry=centre`)
+    fetch(`https://geo.api.gouv.fr/communes?codePostal=${value}&fields=region,nom,code,codesPostaux,centre,codeRegionéformat=json&geometry=centre`)
         // Convertit la réponse en format JSON
         .then((response) => response.json())
         // Une fois que les données JSON sont disponibles
@@ -21,21 +36,29 @@ inputCP.addEventListener("input", () => {
             data.forEach((ville) => {
                 // Crée un nouvel élément d'option HTML
                 let option = document.createElement("option")
+
                 // Définit la valeur de l'option comme le code de la ville
-                option.value = `${ville.code}`
+                option.value = `${ville.code}`;
+
                 // Définit le texte affiché de l'option comme le nom de la ville
-                option.innerHTML = `${ville.nom}`
+                option.innerHTML = `${ville.nom}`;
                 // Ajoute l'option à la liste de sélection de ville
-                selectVille.appendChild(option)
+                selectVille.appendChild(option);
+
+                const coor = ville.centre.coordinates; // coor = array
+
+                console.log("Coordonnées " + ville.nom + ": " + coor);
+                console.log(coor[0]);
+                console.log(coor[1]);
+
+                let markers = [];
+
+                var marker = L.marker([coor[1], coor[0]]).addTo(map).bindPopup(ville.nom);
+
+                markers.push(marker);
+                console.log(markers);
+
+                var group = new L.featureGroup(markers)
             })
         })
 });
-
-var map = L.map('map').setView([51.505, -0.09], 13);
-
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-
-var marker = L.marker([51.5, -0.09]).addTo(map);
