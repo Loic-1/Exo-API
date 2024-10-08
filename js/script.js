@@ -16,6 +16,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 L.control.scale().addTo(map);
 
 
+
 // Ajoute un écouteur d'événement "input" (pendant la saisie) au champ de code postal
 inputCP.addEventListener("input", () => {
     // Récupère la valeur entrée dans le champ de code postal
@@ -23,6 +24,7 @@ inputCP.addEventListener("input", () => {
     // Vide le contenu actuel de la liste de sélection de ville
     selectVille.innerText = null;
 
+    let markers = [];
 
     // Effectue une requête fetch vers l'API de géolocalisation avec le code postal saisi
     fetch(`https://geo.api.gouv.fr/communes?codePostal=${value}&fields=region,nom,code,codesPostaux,centre,codeRegionéformat=json&geometry=centre`)
@@ -48,17 +50,18 @@ inputCP.addEventListener("input", () => {
                 const coor = ville.centre.coordinates; // coor = array
 
                 console.log("Coordonnées " + ville.nom + ": " + coor);
-                console.log(coor[0]);
-                console.log(coor[1]);
-
-                let markers = [];
 
                 var marker = L.marker([coor[1], coor[0]]).addTo(map).bindPopup(ville.nom);
 
                 markers.push(marker);
-                console.log(markers);
 
-                var group = new L.featureGroup(markers)
+                var group = new L.featureGroup(markers);
+
+
+
+                map.fitBounds(group.getBounds(), {padding: [20, 20]});
             })
+            console.log(markers);
         })
+
 });
